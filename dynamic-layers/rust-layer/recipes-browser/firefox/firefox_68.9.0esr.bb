@@ -2,8 +2,8 @@
 # Released under the MIT license (see packages/COPYING)
 
 DESCRIPTION ?= "Browser made by mozilla"
-DEPENDS += "curl startup-notification libevent cairo libnotify \
-            virtual/libgl pulseaudio icu dbus-glib \
+DEPENDS += "curl startup-notification libevent cairo \
+            virtual/libgl icu dbus-glib \
             nodejs-native cbindgen-native \
             yasm-native nasm-native unzip-native \
             virtual/${TARGET_PREFIX}rust cargo-native ${RUSTLIB_DEP} \
@@ -50,6 +50,7 @@ SRC_URI = "https://ftp.mozilla.org/pub/firefox/releases/${PV}/source/firefox-${P
            file://wayland/egl/bug1571603-Disable-eglQueryString-nullptr-EGL_EXTENSIONS.patch \
            file://wayland/egl/0001-GLLibraryLoader-Use-given-symbol-lookup-function-fir.patch \
            file://wayland/egl/0001-Mark-GLFeature-framebuffer_multisample-as-unsupporte.patch \
+           file://0001-Fixes-for-ppc64.patch \
            "
 
 SRC_URI[sha256sum] = "935105e1a8a97d64daffb372690e2b566b5f07641f01470929dbbc82d20d4407"
@@ -77,6 +78,7 @@ PACKAGECONFIG[openmax] = "--enable-openmax,,,"
 PACKAGECONFIG[webgl] = ",,,"
 PACKAGECONFIG[webrtc] = "--enable-webrtc,--disable-webrtc,,"
 PACKAGECONFIG[forbit-multiple-compositors] = ",,,"
+PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,,"
 
 # Add a config file to enable GPU acceleration by default.
 SRC_URI += "${@bb.utils.contains('PACKAGECONFIG', 'gpu', \

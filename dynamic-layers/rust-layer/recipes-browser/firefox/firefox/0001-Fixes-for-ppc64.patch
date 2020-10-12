@@ -1,0 +1,48 @@
+From 96284598444351a15237e771c11441c99f66e9ac Mon Sep 17 00:00:00 2001
+From: Richard Strand <richard@nubolabs.com>
+Date: Mon, 12 Oct 2020 21:06:07 +0100
+Subject: [PATCH] Fixes for ppc64
+
+---
+ intl/locale/LocaleService.cpp            | 14 +++++++-------
+ security/nss/lib/freebl/mpi/mpcpucache.c |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/intl/locale/LocaleService.cpp b/intl/locale/LocaleService.cpp
+index c0cd3a5af7..1a1a2921a6 100644
+--- a/intl/locale/LocaleService.cpp
++++ b/intl/locale/LocaleService.cpp
+@@ -549,13 +549,13 @@ LocaleService::GetDefaultLocale(nsACString& aRetVal) {
+     // Try to get the package locale from update.locale in omnijar. If the
+     // update.locale file is not found, item.len will remain 0 and we'll
+     // just use our hard-coded default below.
+-    GetGREFileContents("update.locale", &locale);
+-    locale.Trim(" \t\n\r");
+-    // This should never be empty.
+-    MOZ_ASSERT(!locale.IsEmpty());
+-    if (SanitizeForBCP47(locale, true)) {
+-      mDefaultLocale.Assign(locale);
+-    }
++    // GetGREFileContents("update.locale", &locale);
++    // locale.Trim(" \t\n\r");
++    // // This should never be empty.
++    // MOZ_ASSERT(!locale.IsEmpty());
++    // if (SanitizeForBCP47(locale, true)) {
++    //   mDefaultLocale.Assign(locale);
++    // }
+ 
+     // Hard-coded fallback to allow us to survive even if update.locale was
+     // missing/broken in some way.
+diff --git a/security/nss/lib/freebl/mpi/mpcpucache.c b/security/nss/lib/freebl/mpi/mpcpucache.c
+index 336b4cc559..5487e020f5 100644
+--- a/security/nss/lib/freebl/mpi/mpcpucache.c
++++ b/security/nss/lib/freebl/mpi/mpcpucache.c
+@@ -704,7 +704,7 @@ s_mpi_getProcessorLineSize()
+ #define MPI_GET_PROCESSOR_LINE_SIZE_DEFINED 1
+ #endif
+ 
+-#if defined(__ppc64__)
++#if 0
+ /*
+  *  Sigh, The PPC has some really nice features to help us determine cache
+  *  size, since it had lots of direct control functions to do so. The POWER
